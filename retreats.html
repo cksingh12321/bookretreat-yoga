@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Retreats — bookretreat.yoga</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div id="site-header"></div>
+
+    <section class="section-hero-retreats text-white">
+      <div class="max-w-7xl mx-auto px-6 py-20 md:py-28">
+        <p class="uppercase tracking-[0.25em] text-sm mb-3 text-white/80">All retreats</p>
+        <h1 class="font-serif text-5xl md:text-6xl leading-tight mb-4">A retreat for every season of your practice.</h1>
+        <p class="text-lg text-white/85 max-w-xl">Filter by style, region, or theme — and find the one that fits the moment you're in.</p>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 -mt-8 mb-6 relative z-10">
+      <form id="listing-search" class="bg-white rounded-2xl p-2 flex gap-2 shadow-xl border border-stone-100" autocomplete="off">
+        <div class="flex items-center gap-3 flex-1 px-4 py-2">
+          <span class="text-stone-400 text-lg">📍</span>
+          <input
+            type="text"
+            id="listing-search-input"
+            placeholder="Search by location — Bali, Tuscany, Greece…"
+            class="flex-1"
+            style="border: none; padding: 0; background: transparent; box-shadow: none;"
+            aria-label="Search retreats by location"
+          />
+        </div>
+        <button type="submit" class="btn-terra" style="padding: 0.7rem 1.5rem;">Search</button>
+      </form>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-6">
+      <div class="grid lg:grid-cols-[260px_1fr] gap-10">
+        <aside class="lg:sticky lg:top-24 lg:self-start">
+          <div class="bg-white rounded-2xl p-6 shadow-sm border border-stone-100">
+            <h3 class="font-serif text-xl mb-4" style="color: var(--sage-800);">Filter</h3>
+
+            <div class="mb-5">
+              <label class="text-sm font-medium block mb-2" style="color: var(--ink);">Region</label>
+              <select id="filter-continent">
+                <option value="">Any region</option>
+                <option value="Asia">Asia</option>
+                <option value="Europe">Europe</option>
+                <option value="Americas">Americas</option>
+                <option value="Africa">Africa</option>
+                <option value="Oceania">Oceania</option>
+              </select>
+            </div>
+
+            <div class="mb-5">
+              <label class="text-sm font-medium block mb-2" style="color: var(--ink);">Style</label>
+              <select id="filter-style">
+                <option value="">Any style</option>
+                <option value="Vinyasa">Vinyasa</option>
+                <option value="Hatha">Hatha</option>
+                <option value="Yin">Yin</option>
+                <option value="Kundalini">Kundalini</option>
+                <option value="Ashtanga">Ashtanga</option>
+              </select>
+            </div>
+
+            <div class="mb-5">
+              <label class="text-sm font-medium block mb-2" style="color: var(--ink);">Theme</label>
+              <select id="filter-theme">
+                <option value="">Any theme</option>
+                <option value="Spiritual">Spiritual</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Detox">Detox</option>
+                <option value="Luxury">Luxury</option>
+              </select>
+            </div>
+
+            <div class="mb-5">
+              <label class="text-sm font-medium block mb-2" style="color: var(--ink);">Max price (USD)</label>
+              <input type="number" id="filter-price" placeholder="No limit" step="100" />
+            </div>
+
+            <div class="mb-5">
+              <label class="text-sm font-medium block mb-2" style="color: var(--ink);">Duration</label>
+              <select id="filter-duration">
+                <option value="">Any length</option>
+                <option value="short">Up to 6 days</option>
+                <option value="mid">7–9 days</option>
+                <option value="long">10+ days</option>
+              </select>
+            </div>
+
+            <button id="reset-filters" class="text-sm" style="color: var(--terra-500);">Reset filters</button>
+          </div>
+        </aside>
+
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <div id="result-count" class="text-stone-600 text-sm"></div>
+            <div class="flex items-center gap-2">
+              <label class="text-sm text-stone-600">Sort:</label>
+              <select id="sort-by" style="width: auto; min-width: 160px;">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low to high</option>
+                <option value="price-desc">Price: High to low</option>
+                <option value="rating">Top rated</option>
+                <option value="duration">Longest first</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="retreats-grid" class="grid md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+          <div id="empty-state" class="hidden text-center py-20">
+            <div class="text-5xl mb-4">🌾</div>
+            <h3 class="font-serif text-2xl mb-2" style="color: var(--sage-700);">No retreats match those filters yet.</h3>
+            <p class="text-stone-500">Try widening your search — or join the waitlist below.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="site-footer"></div>
+
+    <script src="/js/data.js?v=3"></script>
+    <script src="/js/main.js?v=3"></script>
+    <script src="/js/listing.js?v=3"></script>
+  </body>
+</html>

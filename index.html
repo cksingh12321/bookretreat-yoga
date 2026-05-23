@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bookretreat.yoga — Find your sacred retreat, anywhere in the world</title>
+    <meta name="description" content="Curated yoga retreats across every continent. From Bali shalas to Tuscan villas, find your sacred week." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div id="site-header"></div>
+
+    <section class="hero-gradient text-white">
+      <div class="max-w-7xl mx-auto px-6 py-28 md:py-40">
+        <div class="max-w-2xl">
+          <p class="uppercase tracking-[0.25em] text-sm mb-5 text-white/80">Yoga retreats · curated globally</p>
+          <h1 class="font-serif text-5xl md:text-7xl leading-[1.05] mb-6">
+            Find your sacred retreat<span class="block italic" style="color: var(--sand-300);">anywhere in the world.</span>
+          </h1>
+          <p class="text-lg md:text-xl text-white/85 mb-8 max-w-xl leading-relaxed">
+            From Balinese rice paddies to the Tuscan hills — a hand-picked collection of yoga retreats for the moments your body and mind need a longer breath.
+          </p>
+          <form id="hero-search" class="bg-white rounded-2xl p-2 flex flex-col sm:flex-row gap-2 max-w-2xl shadow-xl mb-5 relative" autocomplete="off">
+            <div class="flex items-center gap-3 flex-1 px-4 py-2 relative">
+              <span class="text-stone-400 text-lg">📍</span>
+              <input
+                type="text"
+                id="hero-search-input"
+                placeholder="Search by location — Bali, Tuscany, Costa Rica…"
+                class="flex-1 border-0 shadow-none focus:ring-0 px-0 text-stone-800 placeholder:text-stone-400"
+                style="border: none; padding: 0; background: transparent;"
+                aria-label="Search retreats by location"
+              />
+              <div id="hero-search-suggest" class="hidden absolute left-0 right-0 top-full mt-2 bg-white rounded-xl shadow-xl border border-stone-100 z-50 overflow-hidden"></div>
+            </div>
+            <button type="submit" class="btn-terra" style="padding: 0.85rem 1.75rem;">Search</button>
+          </form>
+          <div class="flex flex-wrap gap-3">
+            <a href="/retreats.html" class="btn-secondary">Explore all retreats</a>
+            <a href="#how" class="btn-secondary">How it works</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-20">
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <p class="text-sm uppercase tracking-[0.2em] mb-2" style="color: var(--terra-500);">Featured</p>
+          <h2 class="font-serif text-4xl md:text-5xl" style="color: var(--sage-800);">This season's most loved</h2>
+        </div>
+        <a href="/retreats.html" class="hidden md:inline-block nav-link">View all →</a>
+      </div>
+      <div id="featured-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <div class="text-center mt-10 md:hidden">
+        <a href="/retreats.html" class="btn-secondary">View all retreats</a>
+      </div>
+    </section>
+
+    <section style="background: var(--sage-50);" class="py-20">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-12">
+          <p class="text-sm uppercase tracking-[0.2em] mb-2" style="color: var(--terra-500);">By region</p>
+          <h2 class="font-serif text-4xl md:text-5xl" style="color: var(--sage-800);">Choose your part of the world</h2>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <a href="/retreats.html?continent=Asia" class="region-card" data-seed="region-asia">
+            <span>Asia</span>
+          </a>
+          <a href="/retreats.html?continent=Europe" class="region-card" data-seed="region-europe">
+            <span>Europe</span>
+          </a>
+          <a href="/retreats.html?continent=Americas" class="region-card" data-seed="region-americas">
+            <span>Americas</span>
+          </a>
+          <a href="/retreats.html?continent=Africa" class="region-card" data-seed="region-africa">
+            <span>Africa</span>
+          </a>
+          <a href="/retreats.html?continent=Oceania" class="region-card" data-seed="region-oceania">
+            <span>Oceania</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="max-w-7xl mx-auto px-6 py-20">
+      <div class="text-center mb-14">
+        <p class="text-sm uppercase tracking-[0.2em] mb-2" style="color: var(--terra-500);">How it works</p>
+        <h2 class="font-serif text-4xl md:text-5xl" style="color: var(--sage-800);">Three quiet steps</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-10">
+        <div class="text-center">
+          <div class="text-5xl mb-4">🌿</div>
+          <h3 class="font-serif text-2xl mb-2" style="color: var(--sage-700);">Explore</h3>
+          <p class="text-stone-600 leading-relaxed">Browse retreats by style, region, or season. Every listing is hand-reviewed for the small details that matter.</p>
+        </div>
+        <div class="text-center">
+          <div class="text-5xl mb-4">📿</div>
+          <h3 class="font-serif text-2xl mb-2" style="color: var(--sage-700);">Show interest</h3>
+          <p class="text-stone-600 leading-relaxed">No commitments — tell us which retreats call to you. We'll connect you with the host and answer your questions.</p>
+        </div>
+        <div class="text-center">
+          <div class="text-5xl mb-4">🪷</div>
+          <h3 class="font-serif text-2xl mb-2" style="color: var(--sage-700);">Arrive</h3>
+          <p class="text-stone-600 leading-relaxed">When you're ready, secure your spot. We'll handle logistics. You just need to pack a journal and bring an open mind.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: var(--sage-700); color: white;" class="py-20">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <p class="text-sm uppercase tracking-[0.25em] mb-4" style="color: var(--sand-300);">Be the first to know</p>
+        <h2 class="font-serif text-4xl md:text-5xl mb-5">New retreats, every week.</h2>
+        <p class="text-white/85 mb-8 max-w-xl mx-auto text-lg">
+          Get early access to our newest hand-picked retreats — usually before they're listed publicly.
+        </p>
+        <button class="btn-terra" onclick="openInterestModal('', '')">Join the list</button>
+      </div>
+    </section>
+
+    <div id="site-footer"></div>
+
+    <style>
+      .region-card {
+        aspect-ratio: 1;
+        border-radius: 1rem;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        padding: 1.25rem;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 500;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s;
+        background-size: cover;
+        background-position: center;
+      }
+      .region-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(46, 67, 56, 0.1), rgba(46, 67, 56, 0.65));
+      }
+      .region-card span {
+        position: relative;
+        z-index: 1;
+      }
+      .region-card:hover {
+        transform: translateY(-3px);
+      }
+      .region-card[data-seed="region-asia"] { background-image: url("https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=600&q=80"); }
+      .region-card[data-seed="region-europe"] { background-image: url("https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?auto=format&fit=crop&w=600&q=80"); }
+      .region-card[data-seed="region-americas"] { background-image: url("https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80"); }
+      .region-card[data-seed="region-africa"] { background-image: url("https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=600&q=80"); }
+      .region-card[data-seed="region-oceania"] { background-image: url("https://images.unsplash.com/photo-1540206395-68808572332f?auto=format&fit=crop&w=600&q=80"); }
+    </style>
+
+    <script src="/js/data.js?v=3"></script>
+    <script src="/js/main.js?v=3"></script>
+    <script>
+      mountChrome("home");
+      const featured = RETREATS.slice(0, 6);
+      document.getElementById("featured-grid").innerHTML = featured.map(retreatCard).join("");
+
+      (function setupHeroSearch() {
+        const form = document.getElementById("hero-search");
+        const input = document.getElementById("hero-search-input");
+        const suggest = document.getElementById("hero-search-suggest");
+        if (!form || !input || !suggest) return;
+
+        function matchRetreats(q) {
+          const needle = q.trim().toLowerCase();
+          if (!needle) return [];
+          return RETREATS.filter((r) =>
+            (r.location + " " + r.country + " " + r.title + " " + r.continent)
+              .toLowerCase()
+              .includes(needle)
+          ).slice(0, 5);
+        }
+
+        function renderSuggestions(q) {
+          const results = matchRetreats(q);
+          if (results.length === 0) {
+            suggest.classList.add("hidden");
+            suggest.innerHTML = "";
+            return;
+          }
+          suggest.innerHTML = results
+            .map(
+              (r) => `
+              <a href="/retreat.html?id=${r.id}" class="flex items-center gap-3 px-4 py-3 hover:bg-stone-50 border-b border-stone-100 last:border-0">
+                <img src="${r.image}" class="w-12 h-12 rounded-lg object-cover shrink-0" alt="" />
+                <div class="min-w-0">
+                  <div class="font-medium text-stone-800 truncate">${r.title}</div>
+                  <div class="text-xs text-stone-500 truncate">${r.location}, ${r.country}</div>
+                </div>
+              </a>`
+            )
+            .join("");
+          suggest.classList.remove("hidden");
+        }
+
+        input.addEventListener("input", (e) => renderSuggestions(e.target.value));
+        input.addEventListener("focus", (e) => renderSuggestions(e.target.value));
+        document.addEventListener("click", (e) => {
+          if (!form.contains(e.target)) suggest.classList.add("hidden");
+        });
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const q = input.value.trim();
+          window.location.href = q ? `/retreats.html?q=${encodeURIComponent(q)}` : "/retreats.html";
+        });
+      })();
+    </script>
+  </body>
+</html>
