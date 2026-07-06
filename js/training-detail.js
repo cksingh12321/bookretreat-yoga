@@ -129,14 +129,61 @@ if (!tr) {
   `;
 
   const allPhotos = [tr.image, ...tr.gallery];
-  document.getElementById("photo-grid").innerHTML = allPhotos
+  const photoGrid = document.getElementById("photo-grid");
+  photoGrid.innerHTML = allPhotos
     .map(
       (src, i) => `
-        <div class="rounded-xl overflow-hidden" style="aspect-ratio: 1;">
-          <img src="${src}" alt="${tr.title} — photo ${i + 1}" class="w-full h-full object-cover" loading="lazy" />
-        </div>`
+        <button data-photo-index="${i}" class="photo-thumb relative overflow-hidden rounded-xl group" style="aspect-ratio: 1; padding: 0; border: 0;">
+          <img src="${src}" alt="${tr.title} — photo ${i + 1}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+        </button>`
     )
     .join("");
+
+  function openLightbox(startIndex) {
+    let idx = startIndex;
+    const lb = document.createElement("div");
+    lb.className = "modal-backdrop fade-in";
+    lb.style.background = "rgba(20, 24, 28, 0.92)";
+    lb.innerHTML = `
+      <button id="lb-close" class="absolute top-5 right-6 text-white text-3xl leading-none" aria-label="Close">×</button>
+      <button id="lb-prev" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white text-4xl leading-none w-12 h-12 rounded-full bg-white/10 hover:bg-white/20" aria-label="Previous">‹</button>
+      <button id="lb-next" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white text-4xl leading-none w-12 h-12 rounded-full bg-white/10 hover:bg-white/20" aria-label="Next">›</button>
+      <div class="max-w-5xl w-full flex flex-col items-center">
+        <img id="lb-image" src="${allPhotos[idx]}" class="max-h-[80vh] w-auto rounded-xl shadow-2xl" />
+        <div id="lb-counter" class="text-white/80 text-sm mt-4">${idx + 1} of ${allPhotos.length}</div>
+      </div>
+    `;
+    document.body.appendChild(lb);
+    document.body.style.overflow = "hidden";
+
+    function update() {
+      lb.querySelector("#lb-image").src = allPhotos[idx];
+      lb.querySelector("#lb-counter").textContent = `${idx + 1} of ${allPhotos.length}`;
+    }
+    function prev() { idx = (idx - 1 + allPhotos.length) % allPhotos.length; update(); }
+    function next() { idx = (idx + 1) % allPhotos.length; update(); }
+    function close() {
+      lb.remove();
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    }
+    function onKey(e) {
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") prev();
+      else if (e.key === "ArrowRight") next();
+    }
+    lb.querySelector("#lb-close").addEventListener("click", close);
+    lb.querySelector("#lb-prev").addEventListener("click", prev);
+    lb.querySelector("#lb-next").addEventListener("click", next);
+    lb.addEventListener("click", (e) => {
+      if (e.target === lb) close();
+    });
+    document.addEventListener("keydown", onKey);
+  }
+
+  photoGrid.querySelectorAll(".photo-thumb").forEach((btn) => {
+    btn.addEventListener("click", () => openLightbox(parseInt(btn.dataset.photoIndex, 10)));
+  });
 
   document.getElementById("show-interest-btn").addEventListener("click", () => {
     openInterestModal(`Interested in ${tr.title}? Tell us a bit about you and your practice.`, tr.id);

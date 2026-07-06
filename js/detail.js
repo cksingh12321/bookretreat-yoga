@@ -120,7 +120,7 @@ if (!r) {
             return `
             <div class="flex items-baseline justify-between mt-12 mb-4">
               <h2 class="font-serif text-3xl" style="color: var(--sage-800);">Reviews</h2>
-              <span class="text-xs text-stone-400">Verified bookings only</span>
+              <span class="text-xs px-2 py-1 rounded-full" style="background: rgba(212, 165, 116, 0.2); color: #8a5d2e;">Sample reviews — demo content</span>
             </div>
             <div class="grid sm:grid-cols-2 gap-4">
               ${stories
@@ -132,7 +132,6 @@ if (!r) {
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-2">
                         <span class="font-medium text-sm" style="color: var(--sage-800);">${p.name}</span>
-                        <span title="Verified booking" style="color: var(--sage-600);" class="text-xs">✓</span>
                       </div>
                       <div class="text-xs text-stone-500">${p.location.split(",").pop().trim()} · ${p.yearAttended}</div>
                     </div>
