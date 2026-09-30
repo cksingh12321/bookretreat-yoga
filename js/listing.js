@@ -80,6 +80,23 @@ function applyFilters() {
     grid.innerHTML = list.map(retreatCard).join("");
     count.textContent = `${list.length} retreat${list.length === 1 ? "" : "s"} found`;
   }
+
+  const quicklist = document.getElementById("retreat-quicklist");
+  if (quicklist) {
+    quicklist.innerHTML = list.length
+      ? list.map(retreatListItem).join("")
+      : `<li class="text-sm text-stone-400 py-2">No matches</li>`;
+  }
+}
+
+function retreatListItem(r) {
+  return `
+    <li>
+      <a href="/retreat.html?id=${r.id}" class="block py-2 px-2 rounded-lg hover:bg-stone-50 transition-colors">
+        <span class="block text-sm font-medium" style="color: var(--ink);">${r.title}</span>
+        <span class="block text-xs text-stone-500">${r.location} · ${formatPrice(r.price)} · ${r.duration} days</span>
+      </a>
+    </li>`;
 }
 
 readQueryParams();
