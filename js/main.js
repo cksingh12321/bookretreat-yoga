@@ -1,6 +1,6 @@
 // Web3Forms access key — register the receiving inbox at https://web3forms.com
 // to get this. It is a public, client-side key by design, not a secret.
-const WEB3FORMS_KEY = "REPLACE_WITH_YOUR_ACCESS_KEY";
+const WEB3FORMS_KEY = "6360884a-6042-4fa0-b42c-268e43b8048e";
 
 // Single place every form on the site sends through. Resolves to
 // { ok: true } or { ok: false, message } — never throws, so callers can
