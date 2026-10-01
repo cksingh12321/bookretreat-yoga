@@ -1,3 +1,44 @@
+// Web3Forms access key — register the receiving inbox at https://web3forms.com
+// to get this. It is a public, client-side key by design, not a secret.
+const WEB3FORMS_KEY = "REPLACE_WITH_YOUR_ACCESS_KEY";
+
+// Single place every form on the site sends through. Resolves to
+// { ok: true } or { ok: false, message } — never throws, so callers can
+// render an error state instead of a false success.
+async function submitToWeb3Forms(data, subject) {
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        ...data,
+        access_key: WEB3FORMS_KEY,
+        subject,
+        from_name: "bookretreat.yoga"
+      })
+    });
+    const result = await res.json();
+    return result.success
+      ? { ok: true }
+      : { ok: false, message: result.message || "Something went wrong. Please email us directly." };
+  } catch (err) {
+    console.error(err);
+    return { ok: false, message: "We couldn't send that — check your connection and try again." };
+  }
+}
+
+// Local backup only. Never the destination: nobody but the visitor can
+// read their own localStorage.
+function backupSubmission(storageKey, data) {
+  try {
+    const existing = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    existing.push({ ...data, at: new Date().toISOString() });
+    localStorage.setItem(storageKey, JSON.stringify(existing));
+  } catch (err) {
+    console.error("Could not persist submission:", err);
+  }
+}
+
 function renderHeader(active) {
   const links = [
     { href: "/retreats.html", label: "Retreats", key: "retreats" },
@@ -162,7 +203,9 @@ function openInterestModal(retreatTitle, retreatId) {
           <textarea name="message" rows="3" placeholder="What are you hoping to find?"></textarea>
         </div>
         <input type="hidden" name="retreatId" value="${retreatId || ""}" />
-        <button type="submit" class="btn-primary w-full mt-2">Submit interest</button>
+        <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+        <p id="interest-error" class="hidden text-sm rounded-lg p-3" style="background:#fdf2f0; color:#9c3a28;" role="alert"></p>
+        <button type="submit" id="interest-submit" class="btn-primary w-full mt-2">Submit interest</button>
         <p class="text-xs text-stone-400 text-center mt-2">We'll be in touch within 48 hours.</p>
       </form>
       <div id="interest-success" class="hidden text-center py-6">
@@ -184,25 +227,38 @@ function openInterestModal(retreatTitle, retreatId) {
   modal.addEventListener("click", (e) => {
     if (e.target === modal) close();
   });
-  modal.querySelector("#interest-form").addEventListener("submit", (e) => {
+  const form = modal.querySelector("#interest-form");
+  const submitBtn = modal.querySelector("#interest-submit");
+  const errorBox = modal.querySelector("#interest-error");
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const entry = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      message: formData.get("message"),
-      retreatId: formData.get("retreatId"),
-      at: new Date().toISOString()
-    };
-    try {
-      const existing = JSON.parse(localStorage.getItem("interests") || "[]");
-      existing.push(entry);
-      localStorage.setItem("interests", JSON.stringify(existing));
-    } catch (err) {
-      console.error("Could not persist interest:", err);
+
+    const entry = Object.fromEntries(new FormData(form).entries());
+    backupSubmission("interests", entry);
+
+    errorBox.classList.add("hidden");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+
+    // retreatId is empty for the homepage "Join the list" signup, which is a
+    // newsletter subscriber rather than an enquiry about a specific retreat.
+    const subject = entry.retreatId
+      ? `New enquiry — ${entry.retreatId} — ${entry.name}`
+      : `New newsletter signup — ${entry.name}`;
+
+    const result = await submitToWeb3Forms(entry, subject);
+
+    if (!result.ok) {
+      errorBox.textContent = result.message;
+      errorBox.classList.remove("hidden");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit interest";
+      return;
     }
-    document.getElementById("interest-form").classList.add("hidden");
-    document.getElementById("interest-success").classList.remove("hidden");
-    document.getElementById("modal-close-2").addEventListener("click", close);
+
+    form.classList.add("hidden");
+    modal.querySelector("#interest-success").classList.remove("hidden");
+    modal.querySelector("#modal-close-2").addEventListener("click", close);
   });
 }

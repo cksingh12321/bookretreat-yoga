@@ -111,70 +111,40 @@
 
     <div id="site-footer"></div>
 
-    <script src="/js/data.js?v=4"></script>
-    <script src="/js/main.js?v=4"></script>
+    <script src="/js/data.js?v=5"></script>
+    <script src="/js/main.js?v=5"></script>
     <script>
       mountChrome("host");
-
-      // Web3Forms access key — register the receiving inbox at https://web3forms.com
-      // to get this. It is a public, client-side key by design, not a secret.
-      const WEB3FORMS_KEY = "REPLACE_WITH_YOUR_ACCESS_KEY";
 
       const form = document.getElementById("host-form");
       const submitBtn = document.getElementById("host-submit");
       const errorBox = document.getElementById("host-error");
 
-      // Keep a local copy as a safety net. This is a backup only — never the
-      // primary destination, since nobody but the applicant can read it.
-      function backupLocally(data) {
-        try {
-          const existing = JSON.parse(localStorage.getItem("host-applications") || "[]");
-          existing.push({ ...data, at: new Date().toISOString() });
-          localStorage.setItem("host-applications", JSON.stringify(existing));
-        } catch (err) { console.error(err); }
-      }
-
-      function showError(message) {
-        errorBox.textContent = message;
-        errorBox.classList.remove("hidden");
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Submit application";
-      }
-
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const data = Object.fromEntries(new FormData(form).entries());
-        backupLocally(data);
+        backupSubmission("host-applications", data);
 
         errorBox.classList.add("hidden");
         submitBtn.disabled = true;
         submitBtn.textContent = "Sending…";
 
-        try {
-          const res = await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", Accept: "application/json" },
-            body: JSON.stringify({
-              ...data,
-              access_key: WEB3FORMS_KEY,
-              subject: `New host application — ${data.name} (${data.location})`,
-              from_name: "bookretreat.yoga"
-            })
-          });
-          const result = await res.json();
+        const result = await submitToWeb3Forms(
+          data,
+          `New host application — ${data.name} (${data.location})`
+        );
 
-          if (!result.success) {
-            showError(result.message || "Something went wrong. Please email us directly.");
-            return;
-          }
-
-          form.classList.add("hidden");
-          document.getElementById("host-success").classList.remove("hidden");
-        } catch (err) {
-          console.error(err);
-          showError("We couldn't send that — check your connection and try again.");
+        if (!result.ok) {
+          errorBox.textContent = result.message;
+          errorBox.classList.remove("hidden");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Submit application";
+          return;
         }
+
+        form.classList.add("hidden");
+        document.getElementById("host-success").classList.remove("hidden");
       });
     </script>
   </body>
